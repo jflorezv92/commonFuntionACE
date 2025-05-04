@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<policies>
+  <policy policyType="UserDefined" policyName="UserDefined" policyTemplate="UserDefined">
+    <testName>testValue</testName>
+    <salt>test</salt>
+    <test1>testValue1</test1>
+  </policy>
+</policies>

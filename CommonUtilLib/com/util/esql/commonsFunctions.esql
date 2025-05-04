@@ -1,0 +1,16 @@
+BROKER SCHEMA com.util.esql
+
+CREATE FUNCTION getPolicyProperty( IN policyName CHARACTER, IN propertyName CHARACTER )
+  RETURNS CHARACTER
+  LANGUAGE JAVA
+  EXTERNAL NAME "com.util.PolicyAccess.getPolicyProperty";
+  
+  CREATE FUNCTION encrypt( IN input CHARACTER, IN salt CHARACTER )
+  RETURNS CHARACTER
+  LANGUAGE JAVA
+  EXTERNAL NAME "com.util.CryptoUtil.encrypt";
+  
+  CREATE FUNCTION decrypt( IN input CHARACTER, IN salt CHARACTER )
+  RETURNS CHARACTER
+  LANGUAGE JAVA
+  EXTERNAL NAME "com.util.CryptoUtil.decrypt";
