@@ -22,4 +22,5 @@ public class PolicyAccess {
       System.out.println("Exception caught trying to find UserDefined policy with name '"+policyName+"'. Exception details: '"+mbe.toString()+"'"); 
     }
     return resultPropertyValue;
-} }
+    }
+  }

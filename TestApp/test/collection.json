@@ -89,6 +89,34 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "getCredentialSalesforce",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"credentialName\" : \"nCinoSalesforce\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7800/getCredentialSalesforce",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7800",
+					"path": [
+						"getCredentialSalesforce"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

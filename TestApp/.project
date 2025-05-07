@@ -4,6 +4,7 @@
 	<comment></comment>
 	<projects>
 		<project>CommonUtilLib</project>
+		<project>TestAppJava</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
