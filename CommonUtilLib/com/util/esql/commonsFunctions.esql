@@ -19,3 +19,8 @@ CREATE FUNCTION getCredentialSalesforce(IN name CHARACTER)
   RETURNS CHARACTER
   LANGUAGE JAVA
   EXTERNAL NAME "com.util.CredentialsUtil.getCredentialSalesforce";
+
+CREATE FUNCTION getCredential(IN type CHARACTER, IN name CHARACTER, IN property CHARACTER)
+  RETURNS CHARACTER
+  LANGUAGE JAVA
+  EXTERNAL NAME "com.util.CredentialsUtil.getCredential";
