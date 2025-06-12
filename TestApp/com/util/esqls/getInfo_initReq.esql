@@ -1,0 +1,60 @@
+BROKER SCHEMA com.util.esqls
+PATH com.util.esql; 
+
+CREATE COMPUTE MODULE getInfo_initReq
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		-- CALL CopyMessageHeaders();
+		-- CALL CopyEntireMessage();
+		
+		CREATE FIELD OutputLocalEnvironment.Variables.FlowContext;
+		DECLARE flowContext REFERENCE TO OutputLocalEnvironment.Variables.FlowContext;
+		CREATE FIELD flowContext.chrKey;
+		CREATE FIELD flowContext.mapCache;
+		CREATE FIELD flowContext.firstTkn;
+		CREATE FIELD flowContext.refreshTkn;
+		CREATE FIELD flowContext.JSON;
+		DECLARE chrKey 		REFERENCE TO flowContext.chrKey;
+		DECLARE mapCache 	REFERENCE TO flowContext.mapCache;
+		DECLARE firstTkn 	REFERENCE TO flowContext.firstTkn;
+		DECLARE refreshTkn 	REFERENCE TO flowContext.refreshTkn;
+		DECLARE refEnvJSON 	REFERENCE TO flowContext.JSON;
+		DECLARE token 	CHARACTER '';
+		
+		SET refEnvJSON = InputRoot.JSON;
+		SET refreshTkn = FALSE;
+		
+		SET token = getCacheValue('access_token', 'token_map');
+		
+		IF token <> '' OR token = NULL THEN
+			SET firstTkn = FALSE;
+			SET OutputRoot.HTTPRequestHeader.Authorization = token;
+			SET OutputLocalEnvironment.Destination.HTTP.RequestLine.Method = 'GET';
+			SET OutputLocalEnvironment.Destination.HTTP.RequestURL = 'https://api.escuelajs.co/api/v1/auth/profile';
+			PROPAGATE TO TERMINAL 'out1' DELETE NONE;
+		ELSE
+			SET firstTkn = TRUE;
+			CREATE FIELD OutputRoot.JSON;
+			SET OutputRoot.JSON = InputRoot.JSON;
+			SET OutputLocalEnvironment.Destination.HTTP.RequestLine.Method = 'POST';
+			SET OutputLocalEnvironment.Destination.HTTP.SSLProtocol = 'TLSv1.2';
+			SET OutputLocalEnvironment.Destination.HTTP.RequestURL = 'https://api.escuelajs.co/api/v1/auth/login';
+			RETURN TRUE;
+		END IF;
+		RETURN FALSE;		
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		SET OutputRoot = InputRoot;
+	END;
+END MODULE;

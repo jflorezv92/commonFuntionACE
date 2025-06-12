@@ -24,3 +24,13 @@ CREATE FUNCTION getCredential(IN type CHARACTER, IN name CHARACTER, IN property 
   RETURNS CHARACTER
   LANGUAGE JAVA
   EXTERNAL NAME "com.util.CredentialsUtil.getCredential";
+  
+CREATE PROCEDURE setCacheValue(IN chrKey CHARACTER,	IN chrVal CHARACTER, IN mapCache CHARACTER)
+  RETURNS CHARACTER
+  LANGUAGE JAVA
+  EXTERNAL NAME "com.util.CacheUtil.addUpdateKey";
+  
+CREATE PROCEDURE getCacheValue(IN chrKey CHARACTER, IN mapCache CHARACTER)
+  RETURNS CHARACTER
+  LANGUAGE JAVA
+  EXTERNAL NAME "com.util.CacheUtil.getValue";

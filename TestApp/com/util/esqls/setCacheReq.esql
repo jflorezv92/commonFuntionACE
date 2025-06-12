@@ -1,0 +1,31 @@
+BROKER SCHEMA com.util.esqls
+PATH com.util.esql;
+
+CREATE COMPUTE MODULE setCacheReq
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		 CALL CopyMessageHeaders();
+		-- CALL CopyEntireMessage();
+		
+		DECLARE refJsonIn REFERENCE TO InputRoot.JSON.Data;		
+		DECLARE value CHARACTER '';
+		SET value = setCacheValue(refJsonIn.chrKey,	refJsonIn.chrVal, refJsonIn.mapCache);
+		
+		SET OutputLocalEnvironment.Destination.HTTP.ReplyStatusCode = 201;
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		SET OutputRoot = InputRoot;
+	END;
+END MODULE;

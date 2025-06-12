@@ -21,12 +21,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:7800/getProperty",
-					"protocol": "http",
+					"raw": "{{url}}/getProperty",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "7800",
 					"path": [
 						"getProperty"
 					]
@@ -49,12 +47,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:7800/decrypt",
-					"protocol": "http",
+					"raw": "{{url}}/decrypt",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "7800",
 					"path": [
 						"decrypt"
 					]
@@ -77,12 +73,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:7800/encrypt",
-					"protocol": "http",
+					"raw": "{{url}}/encrypt",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "7800",
 					"path": [
 						"encrypt"
 					]
@@ -105,12 +99,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:7800/getCredentialSalesforce",
-					"protocol": "http",
+					"raw": "{{url}}/getCredentialSalesforce",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "7800",
 					"path": [
 						"getCredentialSalesforce"
 					]
@@ -133,18 +125,123 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:7800/getCredential",
-					"protocol": "http",
+					"raw": "{{url}}/getCredential",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "7800",
 					"path": [
 						"getCredential"
 					]
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "setCache",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"chrKey\" : \"chrKey\",\r\n    \"chrVal\" : \"chrVal\",\r\n    \"mapCache\" : \"mapCache\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/setCache",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"setCache"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getProfile",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"john@mail.com\",\r\n    \"password\": \"changeme\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/getProfile",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"getProfile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getCache",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"chrKey\" : \"access_token\",\r\n    \"mapCache\" : \"token_map\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/getCache",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"getCache"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://localhost:7800",
+			"type": "string"
 		}
 	]
 }
