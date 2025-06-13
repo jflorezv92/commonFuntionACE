@@ -213,6 +213,32 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "getPagination",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"contenSize\": 89680454,\r\n    \"chkSize\": 25\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/getPagination",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"getPagination"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"event": [
