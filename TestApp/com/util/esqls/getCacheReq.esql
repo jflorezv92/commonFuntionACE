@@ -10,8 +10,17 @@ CREATE COMPUTE MODULE getCacheReq
 		DECLARE refJsonIn REFERENCE TO InputRoot.JSON.Data;
 		CREATE FIELD OutputRoot.JSON.Data;
 		DECLARE refJsonOut REFERENCE TO OutputRoot.JSON.Data;
+		DECLARE chrVal CHARACTER '';
+		SET chrVal =  COALESCE(getCacheValue(refJsonIn.chrKey, refJsonIn.mapCache), '');
 		
-		SET refJsonOut.chrVal = getCacheValue(refJsonIn.chrKey, refJsonIn.mapCache);
+		IF chrVal = NULL OR chrVal = '' THEN
+			SET OutputRoot.JSON = NULL;
+			SET OutputLocalEnvironment.Destination.HTTP.ReplyStatusCode = 404;
+		ELSE
+			SET refJsonOut.{refJsonIn.chrKey} = chrVal;
+			SET OutputLocalEnvironment.Destination.HTTP.ReplyStatusCode = 200;
+		END IF;
+		
 		  
 		RETURN TRUE;
 	END;

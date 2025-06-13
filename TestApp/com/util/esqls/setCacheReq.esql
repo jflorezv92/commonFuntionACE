@@ -7,11 +7,23 @@ CREATE COMPUTE MODULE setCacheReq
 		 CALL CopyMessageHeaders();
 		-- CALL CopyEntireMessage();
 		
-		DECLARE refJsonIn REFERENCE TO InputRoot.JSON.Data;		
-		DECLARE value CHARACTER '';
-		SET value = setCacheValue(refJsonIn.chrKey,	refJsonIn.chrVal, refJsonIn.mapCache);
+		DECLARE refJsonIn REFERENCE TO InputRoot.JSON.Data;	
 		
-		SET OutputLocalEnvironment.Destination.HTTP.ReplyStatusCode = 201;
+		IF refJsonIn.chrKey 	= NULL OR TRIM(refJsonIn.chrKey) 	= '' OR EXISTS(refJsonIn.chrKey[]) OR
+		   refJsonIn.chrVal 	= NULL OR TRIM(refJsonIn.chrVal) 	= '' OR EXISTS(refJsonIn.chrVal[]) OR
+		   refJsonIn.mapCache 	= NULL OR TRIM(refJsonIn.mapCache) 	= '' OR EXISTS(refJsonIn.mapCache[]) THEN
+		   
+		   SET OutputLocalEnvironment.Destination.HTTP.ReplyStatusCode = 400;
+		   RETURN TRUE;
+		END IF;
+			
+		DECLARE chrVal CHARACTER '';
+		SET chrVal = setCacheValue(refJsonIn.chrKey,	refJsonIn.chrVal, refJsonIn.mapCache);
+		IF chrVal = '1' THEN
+			SET OutputLocalEnvironment.Destination.HTTP.ReplyStatusCode = 201;
+		ELSE
+			SET OutputLocalEnvironment.Destination.HTTP.ReplyStatusCode = 500;
+		END IF;
 		RETURN TRUE;
 	END;
 

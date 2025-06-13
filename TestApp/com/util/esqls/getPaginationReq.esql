@@ -1,0 +1,66 @@
+BROKER SCHEMA com.util.esqls
+
+
+CREATE COMPUTE MODULE getPaginationReq
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		-- CALL CopyMessageHeaders();
+		-- CALL CopyEntireMessage();
+		
+		DECLARE refInJSON REFERENCE TO InputRoot.JSON.Data;
+		
+		DECLARE mb DECIMAL 1000000;
+		DECLARE contenSize DECIMAL 0.0;
+		SET contenSize = refInJSON.contenSize;
+		DECLARE chkSize DECIMAL 0.0;
+		SET chkSize = refInJSON.chkSize;
+		IF contenSize <= 0 OR chkSize <= 0 THEN
+			SET OutputLocalEnvironment.Destination.HTTP.ReplyStatusCode = 400;
+			RETURN TRUE;
+		END IF;
+		CREATE FIELD OutputRoot.JSON.Data;
+		DECLARE refOutJSON REFERENCE TO OutputRoot.JSON.Data;
+		DECLARE chkSizeKb DECIMAL 0.0;
+		SET chkSizeKb = mb*chkSize;
+		DECLARE times INTEGER 0;
+		SET times = CEIL(contenSize/chkSizeKb);
+		DECLARE I INTEGER 1;
+		DECLARE starSize INTEGER 0;
+		DECLARE endSize INTEGER 0;
+		SET chkSizeKb = chkSizeKb - 1; 
+		SET endSize = chkSizeKb;
+		
+		SET refOutJSON.times = times;
+		
+		CREATE FIELD refOutJSON.pagination IDENTITY(JSON.Array)pagination;
+		
+		WHILE I <= times DO
+			SET refOutJSON.pagination.Item[I].call = I;
+			SET refOutJSON.pagination.Item[I].starSize = CAST(starSize AS CHARACTER);
+			IF contenSize < endSize THEN
+				SET endSize = contenSize;
+			END IF;
+			SET refOutJSON.pagination.Item[I].endSize = CAST(endSize AS CHARACTER);
+			SET refOutJSON.pagination.Item[I].range = 'Range=' || CAST(starSize AS CHARACTER) || '-' || CAST(endSize AS CHARACTER);
+			SET starSize = endSize + 1;
+			SET endSize = starSize + chkSizeKb;
+			SET I = I + 1;
+		END WHILE;
+				
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		SET OutputRoot = InputRoot;
+	END;
+END MODULE;
