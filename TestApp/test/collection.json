@@ -1,0 +1,273 @@
+{
+	"info": {
+		"_postman_id": "7020236f-c51d-40c2-a5aa-e5a12c8f3627",
+		"name": "TestApp",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39584242"
+	},
+	"item": [
+		{
+			"name": "getProperty",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"policyProject\" : \"DefaultPolicy\",\r\n    \"policyType\" : \"UserDefined\",\r\n    \"property\" : \"test1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/getProperty",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"getProperty"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "decrypt",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"in\" : \"XUnFo9LnD78KbwvyxyOgxrp0ykeu7GSJKTKO2oW6KAk=\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/decrypt",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"decrypt"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "encrypt",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"in\" : \"This is a secret message\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/encrypt",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"encrypt"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getCredentialSalesforce",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"credentialName\" : \"nCinoSalesforce\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/getCredentialSalesforce",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"getCredentialSalesforce"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getCredential",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"type\" : \"salesforce\",\r\n    \"credentialName\" : \"nCinoSalesforce\",\r\n    \"property\" : \"USERNAME\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/getCredential",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"getCredential"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "setCache",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"chrKey\" : \"chrKey\",\r\n    \"chrVal\" : \"chrVal\",\r\n    \"mapCache\" : \"mapCache\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/setCache",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"setCache"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getProfile",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"john@mail.com\",\r\n    \"password\": \"changeme\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/getProfile",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"getProfile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getCache",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"chrKey\" : \"access_token\",\r\n    \"mapCache\" : \"token_map\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/getCache",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"getCache"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getPagination",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"contenSize\": 89680454,\r\n    \"chkSize\": 25\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/getPagination",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"getPagination"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://localhost:7800",
+			"type": "string"
+		}
+	]
+}

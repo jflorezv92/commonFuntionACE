@@ -1,0 +1,36 @@
+BROKER SCHEMA com.util.esql
+
+CREATE FUNCTION getPolicyProperty( IN policyName CHARACTER, IN propertyName CHARACTER )
+  RETURNS CHARACTER
+  LANGUAGE JAVA
+  EXTERNAL NAME "com.util.PolicyAccess.getPolicyProperty";
+  
+CREATE FUNCTION encrypt( IN input CHARACTER, IN salt CHARACTER )
+  RETURNS CHARACTER
+  LANGUAGE JAVA
+  EXTERNAL NAME "com.util.CryptoUtil.encrypt";
+  
+CREATE FUNCTION decrypt( IN input CHARACTER, IN salt CHARACTER )
+  RETURNS CHARACTER
+  LANGUAGE JAVA
+  EXTERNAL NAME "com.util.CryptoUtil.decrypt";
+  
+CREATE FUNCTION getCredentialSalesforce(IN name CHARACTER)
+  RETURNS CHARACTER
+  LANGUAGE JAVA
+  EXTERNAL NAME "com.util.CredentialsUtil.getCredentialSalesforce";
+
+CREATE FUNCTION getCredential(IN type CHARACTER, IN name CHARACTER, IN property CHARACTER)
+  RETURNS CHARACTER
+  LANGUAGE JAVA
+  EXTERNAL NAME "com.util.CredentialsUtil.getCredential";
+  
+CREATE PROCEDURE setCacheValue(IN chrKey CHARACTER,	IN chrVal CHARACTER, IN mapCache CHARACTER)
+  RETURNS CHARACTER
+  LANGUAGE JAVA
+  EXTERNAL NAME "com.util.CacheUtil.addUpdateKey";
+  
+CREATE PROCEDURE getCacheValue(IN chrKey CHARACTER, IN mapCache CHARACTER)
+  RETURNS CHARACTER
+  LANGUAGE JAVA
+  EXTERNAL NAME "com.util.CacheUtil.getValue";
