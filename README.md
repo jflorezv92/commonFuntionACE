@@ -1,52 +1,73 @@
 # commonFuntionACE
-mqsivault --work-dir D:\Cursos\ACE12\WRK\A\TEST_SERVER --create --vault-key vaultTest
+This code contains a different examples of code:
+	Developed in ACE 12.0.10.0
 
-mqsistart --work-dir D:\Cursos\ACE12\WRK\A\TEST_SERVER --vault-key vaultTest ???
-
-mqsicredentials --work-dir D:\Cursos\ACE12\WRK\A\TEST_SERVER --create --credential-type salesforce --credential-name nCinoSalesforce --vault-key vaultTest --auth-type basicClientId --username 'userTest' --password 'passw0rdTest' --client-id '1234567890-abc123def456.apps.googleusercontent.com' --client-secret 'GBAyfVL7YWtP6gudLIjbRZV\_N0dW4f3xETiIxqtokEAZ6FAsBtgyIq0MpU1uQ7J08xOTO2zwP0OuO3pMVAUTid'
-
-mqsisetdbparms -w D:\Cursos\ACE12\WRK\A\TEST_SERVER -n odbc::USERDB2 -u myuserid2 -p mypassword2
-
-mqsicredentials --work-dir D:\Cursos\ACE12\WRK\A\TEST_SERVER --create --credential-name testdb --credential-type odbc --username test --password test
-
-mqsicredentials --work-dir D:\Cursos\ACE12\WRK\A\TEST_SERVER --create --credential-name testdbnode --credential-type odbc --vault-key vaultTest --username user1 --password user1
-
-# add jars to local repository
-mvn install:install-file -DgroupId=com.ibm.broker -DartifactId=javacompute -Dversion=<ace version> -Dpackaging=jar -Dfile=javacompute.jar -DgeneratePom=true
-mvn install:install-file -DgroupId=com.ibm.broker -DartifactId=jplugin2 -Dversion=<ace version> -Dpackaging=jar -Dfile=jplugin2.jar -DgeneratePom=true
-
-# example pom CommonUtilJava
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>CommonUtilJava</groupId>
-  <artifactId>CommonUtilJava</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>CommonUtilJava</name>
-  <description>ESB java functions</description>
-  <build>
-    <sourceDirectory>src</sourceDirectory>
-    <plugins>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.1</version>
-        <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
-  <dependencies>
-  	<dependency>
-  		<groupId>com.ibm.broker</groupId>
-  		<artifactId>javacompute</artifactId>
-  		<version>12.0.10.0</version>
-  	</dependency>
-  	<dependency>
-  		<groupId>com.ibm.broker</groupId>
-  		<artifactId>jplugin2</artifactId>
-  		<version>12.0.10.0</version>
-  	</dependency>
-  </dependencies>
-</project>
-############################
+	- Default Policy
+		UserDefined.policyxml
+			Example of a User Defined Policy
+	- CommonUtilLib
+		Library contains diferent functions:
+			- encrypt
+				encrypt a string
+			- decrypt
+				decrypt a string
+			- getPolicyProperty
+				get the value of a User Defined property
+			- getCredentialSalesforce
+				get credencial salesforce (mqsicredentials)
+			- getCredential
+				get any credential depends on the input (mqsicredentials)
+			- setCacheValue
+				set calue in global cache 
+					chrKey:	Key map
+					chrVal:	Value map
+					mapCache:	map name
+			- getCacheValue
+				get calue in global cache
+					chrKey:	Key map
+					chrVal:	Value map
+					mapCache:	map name
+	CommonUtilJava
+		CryptoUtil
+			- Code in java to encrypt/decrypt
+		PolicyAccess
+			- Code in java to access a User Defined property
+		CredentialsUtil
+			- Code in java to get the (mqsicredentials)
+		CacheUtil
+			- Code In java to manage the cache map
+	TestApp
+		- TestApp (folder)
+			Contains a conllection of following operaritions:
+		- encryptText (flow)
+			Api Rest HTTP Request Node to call encrypt
+		- decryptText (flow)
+			Api Rest HTTP Request Node to call decrypt
+		- getUDProperty (flow)
+			Api Rest HTTP Request Node to call getPolicyProperty
+		- getCredentials (flow)
+			Api Rest HTTP Request Node to call getCredential
+		- getCredentialSalesforce (flow)
+			Api Rest HTTP Request Node to call getCredential only salesforce
+		- getCache (flow)
+			Api Rest HTTP Request Node to call getCacheValue
+		- setCache (flow)
+			Api Rest HTTP Request Node to call getCacheValue
+		- getProfile (flow)
+			Api Rest HTTP Request Node to call get profile info of api.escuelajs.co, through jwt
+		- getPagination (flow)
+			Api Rest HTTP Request Node to call get pagination info with contenSize and chuckSize.
+	server.conf.yaml
+		Yaml file with the configurarions of ACE
+	
+	Commands to configure ACE 
+		- Create a Vault
+			mqsivault --work-dir D:\Cursos\ACE12\WRK\A\TEST_SERVER --create --vault-key vaultTest
+		- Start a ntegration Nodes With a vault
+			mqsistart TEST_SERVER --vault-key vaultTest -> For a Integration Nodes
+		- Create a mqsicredentials for salesforce
+			mqsicredentials --work-dir D:\Cursos\ACE12\WRK\A\TEST_SERVER --create --credential-type salesforce --credential-name nCinoSalesforce --vault-key vaultTest --auth-type basicClientId --username 'userTest' --password 'passw0rdTest' --client-id '1234567890-abc123def456.apps.googleusercontent.com' --client-secret 'GBAyfVL7YWtP6gudLIjbRZV\_N0dW4f3xETiIxqtokEAZ6FAsBtgyIq0MpU1uQ7J08xOTO2zwP0OuO3pMVAUTid'
+		- Set a ODBJ Credential
+			mqsisetdbparms -w D:\Cursos\ACE12\WRK\A\TEST_SERVER -n odbc::USERDB2 -u myuserid2 -p mypassword2
+		- Create a mqsicredentials for salesforce odbc
+			mqsicredentials --work-dir D:\Cursos\ACE12\WRK\A\TEST_SERVER --create --credential-name testdb --credential-type odbc --username test --password test
