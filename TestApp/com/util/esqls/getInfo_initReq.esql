@@ -30,7 +30,7 @@ CREATE COMPUTE MODULE getInfo_initReq
 			SET firstTkn = FALSE;
 			SET OutputRoot.HTTPRequestHeader.Authorization = token;
 			SET OutputLocalEnvironment.Destination.HTTP.RequestLine.Method = 'GET';
-			SET OutputLocalEnvironment.Destination.HTTP.RequestURL = 'https://api.escuelajs.co/api/v1/auth/profile';
+			SET OutputLocalEnvironment.Destination.HTTP.RequestURL = 'https://dummyjson.com/auth/me';
 			PROPAGATE TO TERMINAL 'out1' DELETE NONE;
 		ELSE
 			SET firstTkn = TRUE;
@@ -38,7 +38,7 @@ CREATE COMPUTE MODULE getInfo_initReq
 			SET OutputRoot.JSON = InputRoot.JSON;
 			SET OutputLocalEnvironment.Destination.HTTP.RequestLine.Method = 'POST';
 			SET OutputLocalEnvironment.Destination.HTTP.SSLProtocol = 'TLSv1.2';
-			SET OutputLocalEnvironment.Destination.HTTP.RequestURL = 'https://api.escuelajs.co/api/v1/auth/login';
+			SET OutputLocalEnvironment.Destination.HTTP.RequestURL = 'https://dummyjson.com/auth/login';
 			RETURN TRUE;
 		END IF;
 		RETURN FALSE;		

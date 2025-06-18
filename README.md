@@ -54,7 +54,7 @@ This code contains a different examples of code:
 		- setCache (flow)
 			Api Rest HTTP Request Node to call getCacheValue
 		- getProfile (flow)
-			Api Rest HTTP Request Node to call get profile info of api.escuelajs.co, through jwt
+			Api Rest HTTP Request Node to call get profile info of https://dummyjson.com/docs/auth, through jwt
 		- getPagination (flow)
 			Api Rest HTTP Request Node to call get pagination info with contenSize and chuckSize.
 	server.conf.yaml

@@ -1,4 +1,4 @@
-BROKER SCHEMA com.util.subflow
+BROKER SCHEMA com.util.esqls
 PATH com.util.esql; 
 
 CREATE COMPUTE MODULE getInfo_Validate
@@ -18,29 +18,32 @@ CREATE COMPUTE MODULE getInfo_Validate
 			CREATE FIELD OutputRoot.JSON;
 			SET OutputRoot.JSON = InputRoot.JSON;
 			RETURN TRUE;
-		ELSEIF InputRoot.HTTPResponseHeader."X-Original-HTTP-Status-Code" = 201 AND flowContOut.firstTkn THEN
+		ELSEIF InputRoot.HTTPResponseHeader."X-Original-HTTP-Status-Code" = 200 AND flowContOut.firstTkn THEN
 			DECLARE auxToken CHARACTER '';
-			DECLARE refToken CHARACTER COALESCE(refJsonIn.refresh_token, '');
-			DECLARE tokenIn CHARACTER 'Bearer ' || COALESCE(refJsonIn.access_token, '');
+			DECLARE refToken CHARACTER COALESCE(refJsonIn.refreshToken, '');
+			DECLARE tokenIn CHARACTER 'Bearer ' || COALESCE(refJsonIn.accessToken, '');
 			SET auxToken = setCacheValue('access_token',	tokenIn, 'token_map');
 			SET auxToken = setCacheValue('refresh_token',	refToken, 'token_map');
 			SET OutputRoot.HTTPRequestHeader.Authorization = tokenIn;
 			SET OutputLocalEnvironment.Destination.HTTP.RequestLine.Method = 'GET';
-			SET OutputLocalEnvironment.Destination.HTTP.RequestURL = 'https://api.escuelajs.co/api/v1/auth/profile';
+			SET OutputLocalEnvironment.Destination.HTTP.RequestURL = 'https://dummyjson.com/auth/me';
 			SET flowContOut.firstTkn = FALSE;
 			PROPAGATE TO TERMINAL 'out1' DELETE NONE;
 		ELSEIF InputRoot.HTTPResponseHeader."X-Original-HTTP-Status-Code" = 401 AND NOT flowContOut.refreshTkn THEN
 			CREATE FIELD OutputRoot.JSON.Data;
 			DECLARE refOutJson REFERENCE TO OutputRoot.JSON.Data;
 			SET refOutJson.refreshToken = getCacheValue('refresh_token', 'token_map');
-			SET OutputLocalEnvironment.Destination.HTTP.RequestURL = 'https://api.escuelajs.co/api/v1/auth/refresh-token';
-			SET flowContOut.refreshTkn = TRUE;
-			PROPAGATE TO TERMINAL 'out2' DELETE NONE;
-		ELSEIF InputRoot.HTTPResponseHeader."X-Original-HTTP-Status-Code" = 401 AND flowContOut.refreshTkn THEN
+			SET refOutJson.expiresInMins = flowContOut.JSON.Data.expiresInMins;
+			SET OutputLocalEnvironment.Destination.HTTP.RequestURL = 'https://dummyjson.com/auth/refresh';
 			SET flowContOut.firstTkn = TRUE;
+			SET flowContOut.refreshTkn = FALSE;
+			PROPAGATE TO TERMINAL 'out2' DELETE NONE;
+		ELSEIF InputRoot.HTTPResponseHeader."X-Original-HTTP-Status-Code" = 403 AND NOT flowContOut.refreshTkn AND NOT EXISTS(flowContOut.newRefreshTkn[]) THEN
+			SET flowContOut.firstTkn = TRUE;
+			SET flowContOut.newRefreshTkn = TRUE;
 			CREATE FIELD OutputRoot.JSON; 
 			SET OutputRoot.JSON = flowContOut.JSON;
-			SET OutputLocalEnvironment.Destination.HTTP.RequestURL = 'https://api.escuelajs.co/api/v1/auth/login';
+			SET OutputLocalEnvironment.Destination.HTTP.RequestURL = 'https://dummyjson.com/auth/login';
 			PROPAGATE TO TERMINAL 'out3' DELETE NONE;
 		ELSE
 			CALL CopyEntireMessage();

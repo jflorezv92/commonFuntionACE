@@ -33,18 +33,24 @@ CREATE COMPUTE MODULE getPaginationReq
 		SET refOutJSON.times = times;
 		
 		CREATE FIELD refOutJSON.pagination IDENTITY(JSON.Array)pagination;
+		CREATE FIRSTCHILD OF refOutJSON.pagination TYPE Name NAME 'Item';
+		DECLARE refOutput REFERENCE TO refOutJSON.pagination.Item[>];  -- First element
 		
 		WHILE I <= times DO
-			SET refOutJSON.pagination.Item[I].call = I;
-			SET refOutJSON.pagination.Item[I].starSize = CAST(starSize AS CHARACTER);
+			SET refOutput.call = I;
+			SET refOutput.starSize = CAST(starSize AS CHARACTER);
 			IF contenSize < endSize THEN
 				SET endSize = contenSize;
 			END IF;
-			SET refOutJSON.pagination.Item[I].endSize = CAST(endSize AS CHARACTER);
-			SET refOutJSON.pagination.Item[I].range = 'Range=' || CAST(starSize AS CHARACTER) || '-' || CAST(endSize AS CHARACTER);
+			SET refOutput.endSize = CAST(endSize AS CHARACTER);
+			SET refOutput.range = 'Range=' || CAST(starSize AS CHARACTER) || '-' || CAST(endSize AS CHARACTER);
 			SET starSize = endSize + 1;
 			SET endSize = starSize + chkSizeKb;
 			SET I = I + 1;
+			IF I <= times THEN
+				CREATE NEXTSIBLING OF refOutput TYPE Name NAME 'Item';
+        		MOVE refOutput NEXTSIBLING;
+			END IF;
 		END WHILE;
 				
 		RETURN TRUE;
