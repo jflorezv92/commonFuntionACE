@@ -169,7 +169,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"email\": \"john@mail.com\",\r\n    \"password\": \"changeme\"\r\n}",
+					"raw": "{\r\n    \"username\": \"emilys\",\r\n    \"password\": \"emilyspass\",\r\n    \"expiresInMins\": 1\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"

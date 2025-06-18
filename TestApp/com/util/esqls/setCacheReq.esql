@@ -9,9 +9,9 @@ CREATE COMPUTE MODULE setCacheReq
 		
 		DECLARE refJsonIn REFERENCE TO InputRoot.JSON.Data;	
 		
-		IF refJsonIn.chrKey 	= NULL OR TRIM(refJsonIn.chrKey) 	= '' OR EXISTS(refJsonIn.chrKey[]) OR
-		   refJsonIn.chrVal 	= NULL OR TRIM(refJsonIn.chrVal) 	= '' OR EXISTS(refJsonIn.chrVal[]) OR
-		   refJsonIn.mapCache 	= NULL OR TRIM(refJsonIn.mapCache) 	= '' OR EXISTS(refJsonIn.mapCache[]) THEN
+		IF refJsonIn.chrKey 	= NULL OR TRIM(refJsonIn.chrKey) 	= '' OR NOT EXISTS(refJsonIn.chrKey[]) OR
+		   refJsonIn.chrVal 	= NULL OR TRIM(refJsonIn.chrVal) 	= '' OR NOT EXISTS(refJsonIn.chrVal[]) OR
+		   refJsonIn.mapCache 	= NULL OR TRIM(refJsonIn.mapCache) 	= '' OR NOT EXISTS(refJsonIn.mapCache[]) THEN
 		   
 		   SET OutputLocalEnvironment.Destination.HTTP.ReplyStatusCode = 400;
 		   RETURN TRUE;
